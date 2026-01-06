@@ -5,11 +5,11 @@ pool:
   Latest-Pool
 
 stages:
-  - stage: fmt
-    displayName: fmt stage
+  - stage: Precommit
+    displayName: Pre-commit / Static Analysis Stage
     jobs:
       - job: fmtjob
-        displayName: fmt job
+        displayName: Pre-commit / Static Analysis Stage
         steps:
         - task: TerraformInstaller@1
           inputs:
@@ -18,9 +18,8 @@ stages:
         - task: TerraformTask@5
           inputs:
             provider: 'azurerm'
-            command: 'init'
+            command: 'custom'
             workingDirectory: '$(System.DefaultWorkingDirectory)/parent_modules'
-            backendServiceArm: 'rumuitserviceconnection'
-            backendAzureRmStorageAccountName: 'test42022'
-            backendAzureRmContainerName: 'bawla-container'
-            backendAzureRmKey: 'terraform.tfstate'
+            outputTo: 'console'
+            customCommand: 'fmt'
+            environmentServiceNameAzureRM: 'rumuitserviceconnection'
