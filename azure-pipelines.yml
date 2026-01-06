@@ -73,6 +73,7 @@ stages:
         displayName: Cost & Impact Assessment Stage
         steps:
            - task: TerraformTask@5
+             continueOnError: true
              displayName: init task
              inputs:
                provider: 'azurerm'
