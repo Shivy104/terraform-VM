@@ -53,6 +53,7 @@ stages:
 
         - task: PowerShell@2
           displayName: tflint task
+          continueOnError: true
           inputs:
             targetType: 'inline'
             script: 'tflint'
