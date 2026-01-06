@@ -37,14 +37,23 @@ stages:
             backendAzureRmKey: 'terraform.tfstate'
 
         - task: TerraformTask@5
+          displayName: validate task
           inputs:
             provider: 'azurerm'
             command: 'validate'
             workingDirectory: '$(System.DefaultWorkingDirectory)/parent_modules'
 
         - task: PowerShell@2
+          displayName: tfsec task
           inputs:
             targetType: 'inline'
             script: 'tfsec'
+            errorActionPreference: 'continue'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/parent_modules'
+
+        - task: PowerShell@2
+          inputs:
+            targetType: 'inline'
+            script: 'tflint'
             errorActionPreference: 'continue'
             workingDirectory: '$(System.DefaultWorkingDirectory)/parent_modules'
