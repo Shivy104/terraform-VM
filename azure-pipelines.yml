@@ -97,6 +97,10 @@ stages:
       - job: PlanReviewStage
         displayName: Plan & Review Stage
         steps:
+          - task: TerraformInstaller@1
+            inputs:
+              terraformVersion: 'latest'
+
           - task: TerraformTask@5
             displayName: Init task
             inputs:
@@ -114,7 +118,7 @@ stages:
               provider: 'azurerm'
               command: 'plan'
               workingDirectory: '$(System.DefaultWorkingDirectory)/parent_modules'
-              environmentServiceNameAzureRM: 'rumuitserviceconnection'
+              environmentServiceNameAzureRM: 'rumuitserviceconnection'    
 
   # - stage: manualvalidation
   #   displayName: Approval & Governance Stage
