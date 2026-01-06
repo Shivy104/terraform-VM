@@ -64,3 +64,29 @@ stages:
             debugPreference: 'continue'
             progressPreference: 'continue'
             workingDirectory: '$(System.DefaultWorkingDirectory)/parent_modules'
+
+
+  - stage: cost
+    displayName: Cost & Impact Assessment Stage
+    jobs:
+      - job: cost
+        displayName: Cost & Impact Assessment Stage
+        steps:
+           - task: TerraformTask@5
+             inputs:
+               provider: 'azurerm'
+               command: 'init'
+               workingDirectory: '$(System.DefaultWorkingDirectory)/parent_modules'
+               backendServiceArm: 'rumuitserviceconnection'
+               backendAzureRmStorageAccountName: 'test42022'
+               backendAzureRmContainerName: 'bawla-container'
+               backendAzureRmKey: 'terraform.tfstate'
+
+
+           - task: PowerShell@2
+             displayName: Cost & Impact Assessment Stage
+             inputs:
+               targetType: 'inline'
+               script: 'infracost breakdown --path .'
+
+
