@@ -1,0 +1,25 @@
+# Local .terraform directories
+.terraform/
+
+# .tfstate files and backups
+*.tfstate
+*.tfstate.*.backup
+
+# Crash log files
+crash.log
+crash.*.log
+
+
+
+# Ignore override files as they are usually used for local development and testing
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Ignore CLI configuration files
+.terraformrc
+terraform.rc
+
+# Optional: ignore plan files saved with `terraform plan -out=tfplan`
+# example: *tfplan*
