@@ -52,6 +52,7 @@ stages:
             workingDirectory: '$(System.DefaultWorkingDirectory)/parent_modules'
 
         - task: PowerShell@2
+          displayName: tflint task
           inputs:
             targetType: 'inline'
             script: 'tflint'
