@@ -1,0 +1,26 @@
+trigger:
+- master
+
+pool:
+  Latest-Pool
+
+stages:
+  - stage: fmt
+    displayName: fmt stage
+    jobs:
+      - job: fmtjob
+        displayName: fmt job
+        steps:
+        - task: TerraformInstaller@1
+          inputs:
+            terraformVersion: 'latest'
+
+        - task: TerraformTask@5
+          inputs:
+            provider: 'azurerm'
+            command: 'init'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/parent_modules'
+            backendServiceArm: 'rumuitserviceconnection'
+            backendAzureRmStorageAccountName: 'test42022'
+            backendAzureRmContainerName: 'bawla-container'
+            backendAzureRmKey: 'terraform.tfstate'
