@@ -1,8 +1,8 @@
 rg = {
-    "rg1" = {
-        name = "rg1"
-        location = "Central India"
-    }
+  "rg1" = {
+    name     = "rg1"
+    location = "Central India"
+  }
 }
 
 vnets = {
@@ -25,7 +25,7 @@ subnets = {
 
 nic = {
   "nic1" = {
-    nic_name                  = "nic1"
+    nic_name             = "nic1"
     resource_group_name  = "rg1"
     virtual_network_name = "vnet1"
     subnet_name          = "subnet1"
@@ -41,11 +41,11 @@ nic = {
 
 vm = {
   "vm1" = {
-    name                  = "vm1"
-    location              = "Central India"
-    resource_group_name   = "rg1"
-      nic_name             = "nic1"
-    vm_size               = "Standard_B2s"
+    name                = "vm1"
+    location            = "Central India"
+    resource_group_name = "rg1"
+    nic_name            = "nic1"
+    vm_size             = "Standard_B2s"
     storage_image_reference = {
       publisher = "Canonical"
       offer     = "0001-com-ubuntu-server-jammy"
