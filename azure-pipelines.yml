@@ -4,66 +4,77 @@ trigger:
 pool:
   Latest-Pool
 
+parameters:
+- name: environment
+  displayName: Select Environment
+  type: string
+  default: dev
+  values: 
+  - dev
+  - qa
+  - prod
+
+
 stages:
-  # - stage: Precommit
-  #   displayName: Pre-commit / Static Analysis Stage
-  #   jobs:
-  #     - job: fmtjob
-  #       displayName: Pre-commit / Static Analysis Stage
-  #       steps:
-  #       - task: TerraformInstaller@1
-  #         inputs:
-  #           terraformVersion: 'latest'
+  - stage: Precommit
+    displayName: Pre-commit / Static Analysis Stage
+    jobs:
+      - job: fmtjob
+        displayName: Pre-commit / Static Analysis Stage
+        steps:
+        - task: TerraformInstaller@1
+          inputs:
+            terraformVersion: 'latest'
 
-  #       - task: TerraformTask@5
-  #         displayName: fmt task
-  #         inputs:
-  #           provider: 'azurerm'
-  #           command: 'custom'
-  #           workingDirectory: '$(System.DefaultWorkingDirectory)/parent_modules'
-  #           outputTo: 'console'
-  #           customCommand: 'fmt'
-  #           environmentServiceNameAzureRM: 'rumuitserviceconnection'
+        - task: TerraformTask@5
+          displayName: fmt task
+          inputs:
+            provider: 'azurerm'
+            command: 'custom'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/parent_modules'
+            outputTo: 'console'
+            customCommand: 'fmt'
+            environmentServiceNameAzureRM: 'rumuitserviceconnection'
 
-  #       - task: TerraformTask@5
-  #         displayName: init task
-  #         inputs:
-  #           provider: 'azurerm'
-  #           command: 'init'
-  #           workingDirectory: '$(System.DefaultWorkingDirectory)/parent_modules'
-  #           backendServiceArm: 'rumuitserviceconnection'
-  #           backendAzureRmStorageAccountName: 'test42022'
-  #           backendAzureRmContainerName: 'bawla-container'
-  #           backendAzureRmKey: 'terraform.tfstate'
+        - task: TerraformTask@5
+          displayName: init task
+          inputs:
+            provider: 'azurerm'
+            command: 'init'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/parent_modules'
+            backendServiceArm: 'rumuitserviceconnection'
+            backendAzureRmStorageAccountName: 'test42022'
+            backendAzureRmContainerName: 'bawla-container'
+            backendAzureRmKey: 'terraform.tfstate'
 
-  #       - task: TerraformTask@5
-  #         displayName: validate task
-  #         inputs:
-  #           provider: 'azurerm'
-  #           command: 'validate'
-  #           workingDirectory: '$(System.DefaultWorkingDirectory)/parent_modules'
+        - task: TerraformTask@5
+          displayName: validate task
+          inputs:
+            provider: 'azurerm'
+            command: 'validate'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/parent_modules'
 
-  #       - task: PowerShell@2
-  #         displayName: tfsec task
-  #         inputs:
-  #           targetType: 'inline'
-  #           script: 'tfsec'
-  #           errorActionPreference: 'continue'
-  #           workingDirectory: '$(System.DefaultWorkingDirectory)/parent_modules'
+        - task: PowerShell@2
+          displayName: tfsec task
+          inputs:
+            targetType: 'inline'
+            script: 'tfsec'
+            errorActionPreference: 'continue'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/parent_modules'
 
-  #       - task: PowerShell@2
-  #         displayName: tflint task
-  #         continueOnError: true
-  #         inputs:
-  #           targetType: 'inline'
-  #           script: 'tflint'
-  #           errorActionPreference: 'continue'
-  #           warningPreference: 'continue'
-  #           informationPreference: 'continue'
-  #           verbosePreference: 'continue'
-  #           debugPreference: 'continue'
-  #           progressPreference: 'continue'
-  #           workingDirectory: '$(System.DefaultWorkingDirectory)/parent_modules'
+        - task: PowerShell@2
+          displayName: tflint task
+          continueOnError: true
+          inputs:
+            targetType: 'inline'
+            script: 'tflint'
+            errorActionPreference: 'continue'
+            warningPreference: 'continue'
+            informationPreference: 'continue'
+            verbosePreference: 'continue'
+            debugPreference: 'continue'
+            progressPreference: 'continue'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/parent_modules'
 
 
   # - stage: cost
@@ -91,34 +102,34 @@ stages:
   #              targetType: 'inline'
   #              script: 'infracost breakdown --path .'
  
-  - stage: PlanReviewStage
-    displayName: Plan & Review Stage
-    jobs:
-      - job: PlanReviewStage
-        displayName: Plan & Review Stage
-        steps:
-          - task: TerraformInstaller@1
-            inputs:
-              terraformVersion: 'latest'
+  # - stage: PlanReviewStage
+  #   displayName: Plan & Review Stage
+  #   jobs:
+  #     - job: PlanReviewStage
+  #       displayName: Plan & Review Stage
+  #       steps:
+  #         - task: TerraformInstaller@1
+  #           inputs:
+  #             terraformVersion: 'latest'
 
-          - task: TerraformTask@5
-            displayName: Init task
-            inputs:
-              provider: 'azurerm'
-              command: 'init'
-              workingDirectory: '$(System.DefaultWorkingDirectory)/parent_modules'
-              backendServiceArm: 'rumuitserviceconnection'
-              backendAzureRmStorageAccountName: 'test42022'
-              backendAzureRmContainerName: 'bawla-container'
-              backendAzureRmKey: 'terraform.tfstate'
+  #         - task: TerraformTask@5
+  #           displayName: Init task
+  #           inputs:
+  #             provider: 'azurerm'
+  #             command: 'init'
+  #             workingDirectory: '$(System.DefaultWorkingDirectory)/parent_modules'
+  #             backendServiceArm: 'rumuitserviceconnection'
+  #             backendAzureRmStorageAccountName: 'test42022'
+  #             backendAzureRmContainerName: 'bawla-container'
+  #             backendAzureRmKey: 'terraform.tfstate'
           
-          - task: TerraformTask@5
-            displayName: Plan Task
-            inputs:
-              provider: 'azurerm'
-              command: 'plan'
-              workingDirectory: '$(System.DefaultWorkingDirectory)/parent_modules'
-              environmentServiceNameAzureRM: 'rumuitserviceconnection'    
+  #         - task: TerraformTask@5
+  #           displayName: Plan Task
+  #           inputs:
+  #             provider: 'azurerm'
+  #             command: 'plan'
+  #             workingDirectory: '$(System.DefaultWorkingDirectory)/parent_modules'
+  #             environmentServiceNameAzureRM: 'rumuitserviceconnection'    
 
   # - stage: manualvalidation
   #   displayName: Approval & Governance Stage
